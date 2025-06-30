@@ -199,9 +199,10 @@ class JudgementManager {
   }
 
   void endGame() {
+    final double formattedRate = (rate * 100).floorToDouble() / 100;
     final result = {
       'count': judgeCount,
-      'rate': rate,
+      'rate': formattedRate.toStringAsFixed(2),
       'isFC': isFC,
       'isAP': isAP,
     };

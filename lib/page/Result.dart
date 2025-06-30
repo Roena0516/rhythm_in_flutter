@@ -12,8 +12,13 @@ class ResultScreen extends StatelessWidget {
       appBar: AppBar(title: Text('결과')),
       body: Column(
         children: [
-          Text('Score: ${resultData['score']}'),
-          Text('Combo: ${resultData['combo']}'),
+          Text('PerfectP: ${resultData['count']['PerfectP']}'),
+          Text('Perfect: ${resultData['count']['Perfect']}'),
+          Text('Great: ${resultData['count']['Great']}'),
+          Text('Good: ${resultData['count']['Good']}'),
+          Text('Bad: ${resultData['count']['Bad']}'),
+          Text('Miss: ${resultData['count']['Miss']}'),
+          Text('Rate: ${resultData['rate']}%'),
           Text(resultData['isFC'] ? 'Full Combo!' : ''),
           Text(resultData['isAP'] ? 'All Perfect!' : ''),
         ],
