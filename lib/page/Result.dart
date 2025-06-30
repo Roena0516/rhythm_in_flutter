@@ -19,8 +19,8 @@ class ResultScreen extends StatelessWidget {
           Text('Bad: ${resultData['count']['Bad']}'),
           Text('Miss: ${resultData['count']['Miss']}'),
           Text('Rate: ${resultData['rate']}%'),
-          Text(resultData['isFC'] ? 'Full Combo!' : ''),
-          Text(resultData['isAP'] ? 'All Perfect!' : ''),
+          Text(resultData['isFC'] ? 'FULL COMBO' : ''),
+          Text(resultData['isAP'] ? 'ALL PERFECT' : ''),
         ],
       ),
     );
