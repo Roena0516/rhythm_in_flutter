@@ -34,6 +34,16 @@ class GameScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GameWidget(game: InGame());
+    return Scaffold(
+      body: Stack(
+        children: [
+          GameWidget(
+            game: InGame(onExit: () {
+              Navigator.pop(context);
+            }),
+          ),
+        ],
+      ),
+    );
   }
 }
