@@ -139,12 +139,6 @@ class InGame extends FlameGame with TapCallbacks {
 
     judgementManager.calcRate();
 
-    final lineInputChecker = LineInputChecker()
-      ..judgementManager = judgementManager
-      ..priority = 500;
-
-    add(lineInputChecker);
-
     // Lane에서 입력을 받음
     final lane1 = Lane()
       ..laneNum = 1
@@ -181,6 +175,18 @@ class InGame extends FlameGame with TapCallbacks {
     lane4.position.add(Vector2(62.5 + 125, 0));
 
     add(lane1); add(lane2); add(lane3); add(lane4);
+
+    final lineInputChecker = LineInputChecker(
+      lane1: lane1,
+      lane2: lane2,
+      lane3: lane3,
+      lane4: lane4,
+    )
+      ..judgementManager = judgementManager
+      ..priority = 500;
+
+    add(lineInputChecker);
+
 
     // 판정선 표시용
     final judgeLine = JudgeLine()

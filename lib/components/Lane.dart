@@ -11,6 +11,8 @@ class Lane extends PositionComponent with HasGameReference<InGame>, TapCallbacks
   dynamic noteGenerator;
   dynamic judgementManager;
 
+  Color color = Color(0x40FFFFFF);
+
   Lane() : super(priority: 100);
 
   @override
@@ -21,7 +23,11 @@ class Lane extends PositionComponent with HasGameReference<InGame>, TapCallbacks
   @override
   void render(Canvas canvas) {
     super.render(canvas);
-    final paint = Paint()..color = Colors.grey;
+    final paint = Paint()..color = color;
     canvas.drawRect(size.toRect(), paint);
+  }
+
+  void setColor(Color newColor) {
+    color = newColor;
   }
 }
