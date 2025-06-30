@@ -15,6 +15,7 @@ import '../components/ExitButton.dart';
 import '../components/JudgeText.dart';
 import '../components/JudgementManager.dart';
 import '../components/NoteGenerator.dart';
+import 'Result.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,7 +25,10 @@ void main() async {
     DeviceOrientation.landscapeRight,
   ]);
 
-  runApp(GameWidget(game: InGame(onExit: () {  })));
+  runApp(const MaterialApp(
+    debugShowCheckedModeBanner: false,
+    home: InGameWrapper(),
+  ));
 }
 
 class InGameWrapper extends StatefulWidget {
@@ -40,7 +44,23 @@ class _InGameWrapperState extends State<InGameWrapper> {
   @override
   void initState() {
     super.initState();
-    _game = InGame(onExit: () {  });
+
+    _game = InGame(
+      onExit: () {},
+      onGameEnd: (resultData) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (_) => ResultScreen(resultData: resultData),
+          ),
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GameWidget(game: _game);
   }
 
   @override
@@ -48,18 +68,13 @@ class _InGameWrapperState extends State<InGameWrapper> {
     _game.onRemove();
     super.dispose();
   }
-
-  @override
-  Widget build(BuildContext context) {
-    return GameWidget(game: _game);
-  }
 }
 
 class InGame extends FlameGame with TapCallbacks {
   final VoidCallback onExit;
-  late BuildContext context;
+  final void Function(Map<String, dynamic>) onGameEnd;
 
-  InGame({required this.onExit});
+  InGame({required this.onExit, required this.onGameEnd});
 
   late TextComponent exitButton;
 
@@ -113,6 +128,7 @@ class InGame extends FlameGame with TapCallbacks {
       judgeText: judgeText,
       rateText: rateText,
       comboText: comboText,
+      onGameEnd: onGameEnd,
     );
 
     add (
@@ -177,20 +193,5 @@ class InGame extends FlameGame with TapCallbacks {
     add(judgeLine);
 
     isStarted = true;
-  }
-
-  void endGame() {
-    final result = {
-      'score': judgementManager.getScore(),
-      'isFC': judgementManager.isFC,
-      'isAP': judgementManager.isAP,
-    };
-
-    // 결과 화면으로 이동
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(
-        builder: (_) => ResultScreen(resultData: result),
-      ),
-    );
   }
 }

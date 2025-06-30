@@ -1,10 +1,10 @@
 
-
 import 'package:flame/components.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:rhythm/components/NoteGenerator.dart';
 
 import '../loadChart.dart';
+import '../page/Result.dart';
 
 class JudgementManager {
   final double perfectP = 25;
@@ -35,6 +35,7 @@ class JudgementManager {
 
   final NoteGenerator generator;
   final double Function() getCurrentTime;
+  final void Function(Map<String, dynamic> result) onGameEnd;
   final TextComponent judgeText;
   final TextComponent rateText;
   final TextComponent comboText;
@@ -42,6 +43,7 @@ class JudgementManager {
   JudgementManager({
     required this.generator,
     required this.getCurrentTime,
+    required this.onGameEnd,
     required this.judgeText,
     required this.rateText,
     required this.comboText,
@@ -155,19 +157,21 @@ class JudgementManager {
       _handleEndNote();
     }
 
-    // TODO: 시각적 피드백 및 효과 추가
     judgeText.text = judgement;
     debugPrint('[$judgement] ${note.type} at lane ${note.position}, ${note.ms}, ${note.beat}beat, ${getCurrentTime()}ms');
   }
 
-  void _handleEndNote() {
+  Future<void> _handleEndNote() async {
     if (judgeCount['Miss'] == 0 && judgeCount['Bad'] == 0) {
       isFC = true;
     }
     if (judgeCount.values.every((v) => v == 0 || v == judgeCount['PerfectP'])) {
       isAP = true;
     }
-    // TODO: 게임 종료 처리 등
+
+    await Future.delayed(const Duration(milliseconds: 5000));
+
+    endGame();
   }
 
   void changeRate(String type, String judgement) {
@@ -192,5 +196,16 @@ class JudgementManager {
   void clearCombo() {
     combo = 0;
     comboText.text = "$combo";
+  }
+
+  void endGame() {
+    final result = {
+      'count': judgeCount,
+      'rate': rate,
+      'isFC': isFC,
+      'isAP': isAP,
+    };
+
+    onGameEnd(result);
   }
 }

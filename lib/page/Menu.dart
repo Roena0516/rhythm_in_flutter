@@ -2,6 +2,7 @@ import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 
 import '../main.dart';
+import 'InGame.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -31,8 +32,10 @@ class Menu extends StatelessWidget {
 }
 
 class Game extends StatelessWidget {
+  const Game({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return GameWidget(game: MyGame());
+    return GameWidget(game: InGame(onExit: () {  }));
   }
 }
