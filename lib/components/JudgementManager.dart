@@ -88,13 +88,13 @@ class JudgementManager {
           performAction(note, 'PerfectP');
           return;
         } else if (diff <= perfect) {
-          performAction(note, 'Perfect');
+          performAction(note, 'PerfectP');
           return;
         } else if (diff <= great) {
-          performAction(note, 'Great');
+          performAction(note, 'PerfectP');
           return;
         } else if (diff <= good) {
-          performAction(note, 'Great');
+          performAction(note, 'PerfectP');
           return;
         }
       }
