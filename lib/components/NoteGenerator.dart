@@ -12,8 +12,10 @@ class NoteGenerator extends Component with HasGameReference<InGame> {
   final List<int> randomLane = [1, 2, 3, 4];
 
   final double speed;
-  final double distance = 705; // pixel
+  double distance = 705; // pixel
   late final double fallTime; // ms
+
+  final double judgeLineY;
 
   final double Function() getCurrentTime;
 
@@ -29,12 +31,15 @@ class NoteGenerator extends Component with HasGameReference<InGame> {
   NoteGenerator({
     required this.notes,
     required this.info,
+    required this.judgeLineY,
     this.speed = 1.25,
     required this.getCurrentTime,
   }) : super(priority: 300);
 
   @override
   Future<void> onLoad() async {
+    distance = 110 + judgeLineY;
+
     fallTime = (distance / speed);
 
     // shuffleLanes(); // 옵션에 따라 위치 랜덤화 가능

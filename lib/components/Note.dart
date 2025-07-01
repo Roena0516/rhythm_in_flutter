@@ -14,7 +14,7 @@ class Note extends PositionComponent with HasGameReference<InGame> {
   final double fallTime;
 
   final double startY = -350;
-  final double endY = 500;
+  double endY = 500;
 
   final double Function() getCurrentTime;
   double getLaneX(int lane) => (lane - 1) * 125.0 - 125.0;
@@ -32,6 +32,8 @@ class Note extends PositionComponent with HasGameReference<InGame> {
   Future<void> onLoad() async {
     size = Vector2(125, 20);
     myGame = game as InGame;
+
+    endY = game.size.y;
 
     final double baseX = (game.size.x - size.x) / 2 + getLaneX(note.position);
     final double baseY = -700;

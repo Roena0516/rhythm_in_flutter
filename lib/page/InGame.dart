@@ -91,6 +91,7 @@ class InGame extends FlameGame with TapCallbacks {
     print("${getCurrentTime()}ms");
 
     final levelData = await loader();
+    print(1);
     print("completed ${getCurrentTime()}ms");
 
     exitButton = ExitButton(onExit: onExit);
@@ -115,9 +116,19 @@ class InGame extends FlameGame with TapCallbacks {
       ..priority = 400;
     add(comboText);
 
+    // 판정선 표시용
+    final judgeLine = JudgeLine()
+      ..anchor = Anchor.center
+      ..priority = 100;
+
+    judgeLine.position = Vector2(game.size.x / 2, game.size.y - 150);
+
+    add(judgeLine);
+
     final noteGenerator = NoteGenerator(
       notes: levelData.notes,
       info: levelData.info,
+      judgeLineY: judgeLine.position.y,
       getCurrentTime: getCurrentTime,
     )
       ..priority = 300;
@@ -176,27 +187,38 @@ class InGame extends FlameGame with TapCallbacks {
 
     add(lane1); add(lane2); add(lane3); add(lane4);
 
-    final lineInputChecker = LineInputChecker(
-      lane1: lane1,
-      lane2: lane2,
-      lane3: lane3,
-      lane4: lane4,
+    final lineInputChecker1 = LineInputChecker(
+      lane: lane1,
+      laneNum: 1,
     )
       ..judgementManager = judgementManager
       ..priority = 500;
 
-    add(lineInputChecker);
+    final lineInputChecker2 = LineInputChecker(
+      lane: lane2,
+      laneNum: 2,
+    )
+      ..judgementManager = judgementManager
+      ..priority = 500;
 
+    final lineInputChecker3 = LineInputChecker(
+      lane: lane3,
+      laneNum: 3,
+    )
+      ..judgementManager = judgementManager
+      ..priority = 500;
 
-    // 판정선 표시용
-    final judgeLine = JudgeLine()
-      ..anchor = Anchor.center
-      ..priority = 100;
+    final lineInputChecker4 = LineInputChecker(
+      lane: lane4,
+      laneNum: 4,
+    )
+      ..judgementManager = judgementManager
+      ..priority = 500;
 
-    judgeLine.position = (game.size - judgeLine.size) / 2;
-    judgeLine.position.add(Vector2(0, 230));
-
-    add(judgeLine);
+    add(lineInputChecker1);
+    add(lineInputChecker2);
+    add(lineInputChecker3);
+    add(lineInputChecker4);
 
     isStarted = true;
   }

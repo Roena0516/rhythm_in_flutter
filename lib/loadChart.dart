@@ -5,7 +5,7 @@ import 'package:flutter/services.dart' show rootBundle;
 class SongInfo {
   final String title;
   final String artist;
-  final int bpm;
+  final double bpm;
 
   SongInfo({
     required this.title,
